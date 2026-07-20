@@ -1,0 +1,68 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: task-api-environments
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: secure-gitops-platform
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+
+  generators:
+    - list:
+        elements:
+          - environment: dev
+            namespace: dev
+          - environment: staging
+            namespace: staging
+          - environment: production
+            namespace: production
+
+  template:
+    metadata:
+      name: 'task-api-{{.environment}}'
+      labels:
+        app.kubernetes.io/name: task-api
+        app.kubernetes.io/part-of: secure-gitops-platform
+        environment: '{{.environment}}'
+
+    spec:
+      project: secure-gitops
+
+      sources:
+        - repoURL: https://baqir-ops.github.io/secure-gitops-helm-chart
+          chart: task-api
+          targetRevision: 0.1.0
+          helm:
+            releaseName: task-api
+            valueFiles:
+              - '$values/environments/{{.environment}}/values.yaml'
+
+        - repoURL: https://github.com/baqir-ops/secure-gitops-platform.git
+          targetRevision: main
+          ref: values
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: false
+
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true
+
+        retry:
+          limit: 3
+          backoff:
+            duration: 10s
+            factor: 2
+            maxDuration: 3m

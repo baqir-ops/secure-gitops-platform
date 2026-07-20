@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: secure-gitops
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: secure-gitops-platform
+spec:
+  description: Secure GitOps application platform
+
+  sourceRepos:
+    - https://baqir-ops.github.io/secure-gitops-helm-chart
+    - https://github.com/baqir-ops/secure-gitops-platform.git
+
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: dev
+    - server: https://kubernetes.default.svc
+      namespace: staging
+    - server: https://kubernetes.default.svc
+      namespace: production
+
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Pod
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: ServiceAccount
+    - group: apps
+      kind: Deployment
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler
+    - group: networking.k8s.io
+      kind: Ingress
+    - group: monitoring.coreos.com
+      kind: ServiceMonitor
+
+  orphanedResources:
+    warn: true

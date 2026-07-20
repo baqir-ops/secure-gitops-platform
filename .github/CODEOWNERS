@@ -1,0 +1,6 @@
+# Deployment intent requires review by the repository owner.
+* @baqir-ops
+
+# Production changes require explicit ownership.
+environments/production/ @baqir-ops
+argocd/ @baqir-ops
