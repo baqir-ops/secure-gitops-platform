@@ -55,9 +55,9 @@ Events:
 
 ## Metrics
 ```text
-NAME                                        CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
-ip-10-20-1-89.ap-south-1.compute.internal   83m          4%       1389Mi          19%         
-NAME                       CPU(cores)   MEMORY(bytes)   
-task-api-576db48fc-qc9cn   2m           37Mi            
-task-api-576db48fc-rbq6n   2m           37Mi            
+NAME                                        CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)
+ip-10-20-1-89.ap-south-1.compute.internal   83m          4%       1389Mi          19%
+NAME                       CPU(cores)   MEMORY(bytes)
+task-api-576db48fc-qc9cn   2m           37Mi
+task-api-576db48fc-rbq6n   2m           37Mi
 ```
