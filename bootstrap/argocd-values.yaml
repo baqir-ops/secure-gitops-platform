@@ -1,0 +1,9 @@
+# Argo CD lab configuration.
+#
+# ClusterIP prevents AWS from creating a public load balancer.
+server:
+  service:
+    type: ClusterIP
+
+  ingress:
+    enabled: false
