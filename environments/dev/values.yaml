@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: 950165721116.dkr.ecr.ap-south-1.amazonaws.com/secure-gitops-app
-  tag: "sha-fa41e2ae3720ee0f6886668195c9a783a71258a4"
+  tag: "sha-5753435313398b61de52587c345e8d9e42ee046f"
   digest: ""
   pullPolicy: IfNotPresent
 
