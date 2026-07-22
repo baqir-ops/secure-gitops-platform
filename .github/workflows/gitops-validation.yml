@@ -16,6 +16,7 @@ concurrency:
 
 env:
   HELM_CHART_VERSION: "0.1.0"
+  MONITORING_CHART_VERSION: "87.19.0"
 
 jobs:
   validate:
@@ -70,6 +71,37 @@ jobs:
             test -s "/tmp/task-api-${environment}.yaml"
           done
 
+      - name: Render pinned monitoring stack
+        run: |
+          set -euo pipefail
+
+          helm repo add prometheus-community             https://prometheus-community.github.io/helm-charts             --force-update
+
+          helm repo update prometheus-community
+
+          helm template monitoring             prometheus-community/kube-prometheus-stack             --version "$MONITORING_CHART_VERSION"             --namespace monitoring             --include-crds             --values platform/monitoring/values.yaml             > /tmp/monitoring-rendered.yaml
+
+          test -s /tmp/monitoring-rendered.yaml
+
+          for kind in             CustomResourceDefinition             Prometheus             Alertmanager             PrometheusRule             ServiceMonitor
+          do
+            if ! grep -q "^kind: ${kind}$"               /tmp/monitoring-rendered.yaml
+            then
+              echo "FAIL: Monitoring render is missing ${kind}"
+              exit 1
+            fi
+
+            echo "PASS: ${kind}"
+          done
+
+          if grep -RInE             'targetRevision:[[:space:]]*["'\''"]?\*'             argocd platform
+          then
+            echo "FAIL: Wildcard targetRevision is prohibited"
+            exit 1
+          fi
+
+          echo "Monitoring chart ${MONITORING_CHART_VERSION} rendered successfully."
+
       - name: Scan GitOps repository
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
@@ -91,5 +123,7 @@ jobs:
             echo "- Immutable SHA image tags validated"
             echo "- Plain Kubernetes Secrets prohibited"
             echo "- Dev, staging, and production rendered with Helm"
+            echo "- Pinned kube-prometheus-stack chart rendered"
+            echo "- Monitoring CRDs and custom resources validated"
             echo "- Trivy secret and misconfiguration gates passed"
           } >> "$GITHUB_STEP_SUMMARY"
