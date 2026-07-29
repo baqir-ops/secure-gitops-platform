@@ -18,7 +18,7 @@ autoscaling:
 
 serviceMonitor:
   # Enabled later after Prometheus Operator installs the ServiceMonitor CRD.
-  enabled: true
+  enabled: false
   labels:
     release: monitoring
 
