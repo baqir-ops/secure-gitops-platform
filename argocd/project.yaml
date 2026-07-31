@@ -13,12 +13,14 @@ spec:
     - https://github.com/baqir-ops/secure-gitops-platform.git
 
   destinations:
-    - server: https://kubernetes.default.svc
-      namespace: dev
-    - server: https://kubernetes.default.svc
-      namespace: staging
-    - server: https://kubernetes.default.svc
-      namespace: production
+  - namespace: monitoring
+    server: https://kubernetes.default.svc
+
+  - namespace: argocd
+    server: https://kubernetes.default.svc
+
+  - namespace: kube-system
+    server: https://kubernetes.default.svc
 
   clusterResourceWhitelist:
     - group: ""
