@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: secure-gitops-platform
+
 spec:
   description: Secure GitOps application platform
 
@@ -13,14 +14,23 @@ spec:
     - https://github.com/baqir-ops/secure-gitops-platform.git
 
   destinations:
-  - namespace: monitoring
-    server: https://kubernetes.default.svc
+    - namespace: monitoring
+      server: https://kubernetes.default.svc
 
-  - namespace: argocd
-    server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
 
-  - namespace: kube-system
-    server: https://kubernetes.default.svc
+    - namespace: kube-system
+      server: https://kubernetes.default.svc
+
+    - namespace: dev
+      server: https://kubernetes.default.svc
+
+    - namespace: staging
+      server: https://kubernetes.default.svc
+
+    - namespace: production
+      server: https://kubernetes.default.svc
 
   clusterResourceWhitelist:
     - group: ""
