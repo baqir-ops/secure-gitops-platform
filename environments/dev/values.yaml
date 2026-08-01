@@ -17,8 +17,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 70
 
 serviceMonitor:
-  # Enabled later after Prometheus Operator installs the ServiceMonitor CRD.
-  enabled: false
+  enabled: true
   labels:
     release: monitoring
 
