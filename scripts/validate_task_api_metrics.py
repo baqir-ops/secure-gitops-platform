@@ -45,27 +45,26 @@ def resource_name(resource: dict[str, Any]) -> str:
     return name
 
 
-def validate_disabled(
+def validate_enabled(
     environment: str,
     rendered_file: Path,
 ) -> None:
-    """Verify that an environment renders no ServiceMonitor."""
+    """Verify that an environment renders a ServiceMonitor."""
 
     monitors = load_resources(
         rendered_file,
         "ServiceMonitor",
     )
 
-    if monitors:
-        names = [resource_name(item) for item in monitors]
-
+    if not monitors:
         raise SystemExit(
-            f"FAIL: {environment} must not render "
-            f"ServiceMonitors: {names}"
+            f"FAIL: {environment} did not render a ServiceMonitor"
         )
 
+    names = [resource_name(item) for item in monitors]
+
     print(
-        f"PASS: {environment} ServiceMonitor remains disabled"
+        f"PASS: {environment} ServiceMonitor enabled: {names}"
     )
 
 
@@ -92,9 +91,9 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    validate_disabled("Dev", args.dev)
-    validate_disabled("Staging", args.staging)
-    validate_disabled("Production", args.production)
+    validate_enabled("Dev", args.dev)
+    validate_enabled("Staging", args.staging)
+    validate_enabled("Production", args.production)
 
     print(
         "\nTask API metrics configuration validated."
