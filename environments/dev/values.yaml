@@ -8,7 +8,7 @@ image:
 
 config:
   environment: dev
-  forceFailure: "false"
+  forceFailure: "true"
 
 autoscaling:
   enabled: false
