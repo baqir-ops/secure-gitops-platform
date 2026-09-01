@@ -3,6 +3,14 @@
 This repository is the source of truth for deployment intent and declarative
 Argo CD resources for the Secure GitOps Task API.
 
+## Architecture Overview
+
+The Secure GitOps Platform separates application source code, container
+image delivery, GitOps desired state, Argo CD reconciliation, Kubernetes
+workloads, and observability.
+
+![Secure GitOps Platform Architecture](docs/architecture/secure-gitops-architecture.png)
+
 ## Deployment artifacts
 
 - Helm repository: https://baqir-ops.github.io/secure-gitops-helm-chart

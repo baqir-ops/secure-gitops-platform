@@ -27,11 +27,7 @@ kubeProxy:
 grafana:
   enabled: true
 
-  grafana:
-  enabled: true
-
   adminUser: admin
-  adminPassword: ChangeMe123!
 
   service:
     type: ClusterIP
