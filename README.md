@@ -68,3 +68,38 @@ The ApplicationSet creates three Argo CD Applications from one template:
 
 The reusable Helm chart comes from the public chart repository. Environment
 values come from this Git repository through Argo CD multi-source rendering.
+---
+
+## Final Platform Verification — Phase 17
+
+The final platform verification confirms the operational state of the Secure
+GitOps Platform after completing GitOps deployment, observability, alerting,
+security validation, and recovery work.
+
+Final verification covered:
+
+- Argo CD applications synchronized and healthy
+- Task API workloads running across dev, staging, and production
+- Production HPA configured for 2–5 replicas
+- Prometheus, Grafana, and Alertmanager running
+- Task API PrometheusRule and ServiceMonitors present
+- EKS worker node in `Ready` state
+- Final platform architecture documented
+
+### Final Evidence
+
+See the complete evidence report:
+
+[Phase 17 — Final Platform Verification](docs/evidence/phase-17-final-platform.md)
+
+Final platform screenshots:
+
+- [Argo CD applications healthy](docs/screenshots/phase-17-final-platform/01-argocd-all-applications-healthy.png)
+- [Kubernetes workloads healthy](docs/screenshots/phase-17-final-platform/02-kubernetes-workloads-healthy.png)
+- [Production HPA](docs/screenshots/phase-17-final-platform/03-production-hpa.png)
+- [Monitoring, alerts and ServiceMonitors](docs/screenshots/phase-17-final-platform/04-monitoring-alerts-and-servicemonitors.png)
+- [EKS node ready](docs/screenshots/phase-17-final-platform/05-eks-node-ready.png)
+- [Secure GitOps architecture](docs/screenshots/phase-17-final-platform/06-secure-gitops-architecture.png)
+
+> **Note:** `TaskApiDown` remains a documented gap between the target
+> alerting design and the currently implemented alerting configuration.
