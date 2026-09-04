@@ -55,8 +55,10 @@ healthy baseline. Future changes must follow the promotion sequence above.
 - Only immutable ECR `sha-*` image tags are permitted.
 - The AppProject allow-lists approved source repositories and namespaces.
 - Argo CD automatically prunes drift and self-heals managed resources.
-- Ingress remains disabled initially to avoid unintended load-balancer charges.
-- ServiceMonitor remains disabled until the Prometheus Operator CRD is installed.
+- Ingress remains disabled to avoid unintended load-balancer charges in this lab environment.
+- ServiceMonitors are deployed for `task-api` across dev, staging, and production,
+  scraped by the kube-prometheus-stack (Prometheus, Grafana, Alertmanager) in the
+  `monitoring` namespace.
 
 ## Deployment model
 
